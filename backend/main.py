@@ -1,7 +1,7 @@
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 app = FastAPI(title="HealthLens AI")
 
@@ -14,10 +14,42 @@ app.add_middleware(
 )
 
 
+
 class SymptomRequest(BaseModel):
     symptoms: list[str] = Field(min_length=1, max_length=20)
     duration: str = Field(min_length=1, max_length=50)
     age_group: str
+
+    @field_validator("symptoms")
+    @classmethod
+    def validate_symptoms(cls, symptoms: list[str]) -> list[str]:
+        cleaned_symptoms = []
+
+        for symptom in symptoms:
+            symptom = symptom.strip()
+
+            if not symptom:
+                raise ValueError("Symptoms cannot be empty.")
+
+            if len(symptom) > 100:
+                raise ValueError(
+                    "Each symptom must be 100 characters or fewer."
+                )
+
+            cleaned_symptoms.append(symptom)
+
+        return cleaned_symptoms
+
+    @field_validator("duration")
+    @classmethod
+    def validate_duration(cls, duration: str) -> str:
+        duration = duration.strip()
+
+        if not duration:
+            raise ValueError("Duration cannot be empty.")
+
+        return duration
+
 
 
 @app.get("/")
@@ -36,15 +68,29 @@ def assess_symptoms(request: SymptomRequest):
     symptoms = [s.strip().lower() for s in request.symptoms]
 
     # Basic warning-sign screening, not a complete triage system.
+   
     emergency_signs = {
         "chest pain",
+        "chest pressure",
         "difficulty breathing",
         "trouble breathing",
+        "shortness of breath",
+        "can't breathe",
+        "cannot breathe",
         "severe bleeding",
+        "uncontrolled bleeding",
         "loss of consciousness",
+        "passed out",
+        "fainting",
         "sudden confusion",
         "sudden weakness",
+        "face drooping",
+        "stroke symptoms",
+        "severe allergic reaction",
+        "anaphylaxis",
+        "seizure",
     }
+
 
     if any(
         sign in symptom

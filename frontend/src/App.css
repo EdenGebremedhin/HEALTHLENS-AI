@@ -1,313 +1,717 @@
 
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap");
+/* ========================================
+   HEALTHLENS AI — COMPLETE STYLESHEET
+   ======================================== */
+
+/* 1. Global styles */
+* {
+  box-sizing: border-box;
+}
 
 :root {
-  font-family: "DM Sans", sans-serif;
-  color: #193a40;
-  background: #f5f9f8;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+  color: #193b36;
+  background: #f6faf8;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  font-optical-sizing: auto;
-  font-weight: 400;
+  -moz-osx-font-smoothing: grayscale;
+
+  --green: #176b58;
+  --green-dark: #115544;
+  --green-light: #eaf6f0;
+  --text: #193b36;
+  --muted: #6b7f79;
+  --border: #dce9e4;
+  --white: #ffffff;
+  --radius: 16px;
 }
 
-* {
-  box-sizing: border-box;
+html {
+  min-width: 320px;
+  min-height: 100%;
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
   min-width: 320px;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body,
+button,
+input,
+select {
+  font-family: inherit;
 }
 
 button,
+input,
 select {
-  font: inherit;
+  font-size: inherit;
 }
 
-.navbar {
-  min-height: 76px;
-  padding: 0 8%;
-  background: white;
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+#root {
+  min-height: 100vh;
+  width: 100%;
+}
+
+.app {
+  min-height: 100vh;
+  width: 100%;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  color: var(--text);
+  background: #f6faf8;
+}
+
+/* 2. Navigation bar */
+.navbar {
+  width: 100%;
+  min-height: 76px;
+  padding: 16px 6%;
+  display: flex;
   align-items: center;
-  border-bottom: 1px solid #e5efec;
+  justify-content: space-between;
+  gap: 20px;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
 }
 
 .brand {
-  color: #174c49;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--green);
   text-decoration: none;
-  font: 800 23px "Manrope", sans-serif;
+  font-size: 23px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
 }
 
 .brand-icon {
-  color: #168c79;
-  margin-right: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--green-light);
+  color: var(--green);
+  font-size: 23px;
 }
 
 .brand-ai {
-  color: #168c79;
+  color: #62a58e;
 }
 
 .privacy-note {
-  font-size: 13px;
-  color: #587571;
+  color: var(--muted);
+  font-size: 14px;
 }
 
+/* 3. Main page layout */
 main {
-  max-width: 1120px;
-  padding: 0 24px;
-  margin: auto;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 28px;
+  flex: 1;
 }
 
 .hero {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 66px 0 38px;
   text-align: center;
-  padding: 65px 0 32px;
 }
 
-.eyebrow,
-.result-label {
-  color: #168c79;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 16px;
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  line-height: 1.6;
 }
 
-h1,
-h2,
-h3,
-p {
-  margin-top: 0;
-}
-
-h1 {
-  font: 800 clamp(32px, 5vw, 48px) "Manrope", sans-serif;
-  letter-spacing: -1.7px;
-  margin: 16px 0;
-  color: #2b6c61
+.hero h1 {
+  margin: 0 0 18px;
+  color: #183e36;
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -1.5px;
 }
 
 .hero p {
-  max-width: 570px;
-  margin: auto;
+  max-width: 650px;
+  margin: 0 auto;
+  color: var(--muted);
+  font-size: 17px;
   line-height: 1.8;
-  color: #637a77;
 }
 
+/* 4. Important notice */
 .notice {
-  background: #e8f5f1;
-  border: 1px solid #d4eae2;
+  max-width: 1000px;
+  margin: 0 auto 30px;
   padding: 17px 20px;
+  border: 1px solid #d9e9bc;
   border-radius: 12px;
-  line-height: 1.7;
-  font-size: 13px;
-  margin-bottom: 26px;
+  background: #fbfdf3;
+  color: #56633a;
+  font-size: 14px;
+  line-height: 1.8;
 }
 
+.notice strong {
+  color: #46572b;
+}
+
+/* 5. Main two-column layout */
 .content-grid {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 24px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: start;
+  gap: 24px;
+  width: 100%;
+  margin-bottom: 56px;
 }
 
 .panel {
-  background: white;
-  border: 1px solid #e5eeeb;
-  border-radius: 18px;
+  min-width: 0;
   padding: 28px;
-  box-shadow: 0 8px 28px #204f3f08;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--white);
+  box-shadow: 0 6px 24px rgba(28, 76, 61, 0.045);
+  overflow-wrap: anywhere;
 }
 
 .panel-heading {
   display: flex;
+  align-items: flex-start;
   gap: 14px;
-  align-items: center;
-  margin-bottom: 26px;
+  margin-bottom: 28px;
 }
 
-.step-number {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: #e6f5f0;
-  color: #168c79;
-  font-weight: 700;
-  font-size: 13px;
+.panel h2 {
+  margin: 0 0 8px;
+  color: #193b36;
+  font-size: 22px;
+  font-weight: 750;
+  line-height: 1.4;
 }
 
-h2 {
-  font: 700 20px "Manrope", sans-serif;
-  margin-bottom: 7px;
-  color: #2b6c61
+.panel-heading p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
 }
 
-.panel-heading p,
-.empty-state p {
-  color: #718581;
-  font-size: 13px;
-  line-height: 1.7;
-  margin-bottom: 0;
-}
-
+/* 6. Symptom selection buttons */
 .symptom-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
   margin-bottom: 28px;
 }
 
 .symptom {
-  background: white;
-  border: 1px solid #dce8e4;
+  min-width: 0;
+  min-height: 52px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 13px 10px;
+  background: #ffffff;
+  color: #405c54;
   text-align: left;
+  font-size: 14px;
+  font-weight: 550;
   cursor: pointer;
-  color: #3e5b56;
-  font-size: 13px;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .symptom span {
-  color: #168c79;
-  margin-right: 8px;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #cbded5;
+  border-radius: 7px;
+  color: var(--green);
+  font-size: 15px;
   font-weight: 700;
+}
+
+.symptom:hover {
+  border-color: #81b7a3;
+  background: #f5faf7;
+}
+
+.symptom:active {
+  transform: scale(0.98);
 }
 
 .symptom.selected {
-  background: #eaf7f2;
-  border-color: #168c79;
-  color: #135f50;
+  border-color: var(--green);
+  background: #eaf6f0;
+  color: var(--green-dark);
 }
 
-label {
+.symptom.selected span {
+  border-color: var(--green);
+  background: var(--green);
+  color: #ffffff;
+}
+
+.symptom:focus-visible,
+button:focus-visible {
+  outline: 3px solid rgba(23, 107, 88, 0.3);
+  outline-offset: 3px;
+}
+
+/* 7. Form labels */
+form label,
+.custom-symptom > label {
   display: block;
-  font-weight: 600;
-  font-size: 13px;
-  margin: 18px 0 9px;
+  margin: 0 0 9px;
+  color: #29483f;
+  font-size: 14px;
+  font-weight: 700;
 }
 
-select {
+/* 8. Dropdowns */
+form select {
   width: 100%;
-  padding: 12px;
-  border: 1px solid #dce8e4;
-  border-radius: 9px;
-  background: white;
-  color: #294943;
+  min-height: 48px;
+  margin: 0 0 22px;
+  padding: 12px 14px;
+  border: 1px solid #d1e5df;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
+form select:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(23, 107, 88, 0.12);
+}
+
+/* 9. Custom symptom input */
+.custom-symptom {
+  margin: 22px 0;
+}
+
+.custom-symptom-row {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.custom-symptom-row input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  min-height: 50px;
+  padding: 12px 14px;
+  border: 1px solid #d1e5df;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #193b36;
+  font-size: 15px;
+  outline: none;
+  box-shadow: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.custom-symptom-row input::placeholder {
+  color: #8a9b97;
+  opacity: 1;
+}
+
+.custom-symptom-row input:focus {
+  border-color: var(--green);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(23, 107, 88, 0.12);
+}
+
+.add-symptom-button {
+  flex-shrink: 0;
+  min-height: 50px;
+  padding: 12px 20px;
+  border: 1px solid var(--green);
+  border-radius: 10px;
+  background: var(--green);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.add-symptom-button:hover {
+  background: var(--green-dark);
+}
+
+.add-symptom-button:active {
+  transform: scale(0.98);
+}
+
+.input-hint {
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* 10. Form errors */
+.error {
+  margin: 12px 0;
+  padding: 12px 14px;
+  border: 1px solid #f0c3c3;
+  border-radius: 10px;
+  background: #fff3f3;
+  color: #a12b2b;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* 11. Main submit button */
 .submit-button {
   width: 100%;
-  border: 0;
-  background: #167e6b;
-  color: white;
-  border-radius: 10px;
-  padding: 15px;
-  font-weight: 700;
-  margin-top: 24px;
+  min-height: 52px;
+  margin-top: 6px;
+  padding: 14px 18px;
+  border: none;
+  border-radius: 11px;
+  background: var(--green);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 750;
   cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
-.submit-button:hover {
-  background: #116856;
+.submit-button:hover:not(:disabled) {
+  background: var(--green-dark);
+}
+
+.submit-button:active:not(:disabled) {
+  transform: translateY(1px);
 }
 
 .submit-button:disabled {
   opacity: 0.65;
-  cursor: wait;
+  cursor: not-allowed;
 }
 
-.results-panel > h2 {
-  margin: 20px 0 24px;
-}
-
-.empty-state {
-  text-align: center;
-  padding: 32px 10px;
-}
-
-.empty-icon {
-  display: grid;
-  place-items: center;
-  margin: 0 auto 20px;
-  width: 66px;
-  height: 66px;
-  background: #eaf6f2;
-  border-radius: 50%;
-  color: #168c79;
-  font-size: 38px;
-}
-
-.empty-state h3 {
-  font: 700 16px "Manrope", sans-serif;
+/* 12. Results panel */
+.results-panel h2 {
+  margin-bottom: 24px;
 }
 
 .result-content {
-  font-size: 14px;
+  min-width: 0;
+}
+
+.result-content > p {
+  color: #3e5b53;
+  font-size: 15px;
   line-height: 1.8;
   overflow-wrap: anywhere;
 }
 
 .result-content h3 {
-  font-size: 14px;
-  margin: 22px 0 8px;
+  margin: 24px 0 10px;
+  color: #24483e;
+  font-size: 16px;
+  font-weight: 750;
+  line-height: 1.5;
+}
+
+.result-content ul {
+  padding-left: 22px;
+  color: #3e5b53;
 }
 
 .result-content li {
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+  padding-left: 4px;
+  font-size: 14px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
 }
 
+/* 13. General and emergency banners */
+.urgency-banner {
+  margin-bottom: 22px;
+  padding: 18px;
+  border: 1px solid;
+  border-radius: 12px;
+  text-align: left;
+}
+
+.urgency-banner strong {
+  display: block;
+  margin-bottom: 9px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.urgency-banner p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.urgency-banner.urgent {
+  border-color: #e5a4a4;
+  background: #fff0f0;
+  color: #991b1b;
+}
+
+.urgency-banner.general {
+  border-color: #b8dfca;
+  background: #effaf5;
+  color: #176b48;
+}
+
+/* 14. Medical disclaimer */
 .disclaimer {
-  background: #f3f7f6;
-  padding: 14px;
-  border-radius: 9px;
-  font-size: 12px;
+  margin-top: 28px;
+  padding: 16px;
+  border-radius: 10px;
+  background: #f1f7f5;
+  color: #60766e !important;
+  font-size: 12px !important;
+  line-height: 1.8 !important;
 }
 
-.error {
-  color: #b42318;
-  font-size: 13px;
-  margin-top: 14px;
-}
-
-footer {
+/* 15. Empty results state */
+.empty-state {
+  min-height: 300px;
+  padding: 36px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  padding: 38px 20px;
-  color: #758a85;
-  font-size: 12px;
+}
+
+.empty-icon {
+  width: 62px;
+  height: 62px;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  background: var(--green-light);
+  color: var(--green);
+  font-size: 35px;
+}
+
+.empty-state h3 {
+  margin: 0 0 10px;
+  color: #29483f;
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.empty-state p {
+  max-width: 320px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
   line-height: 1.8;
 }
 
-footer p {
-  margin: 4px;
+/* 16. Footer */
+footer {
+  width: 100%;
+  margin-top: auto;
+  padding: 26px 20px;
+  border-top: 1px solid var(--border);
+  background: #f0f7f4;
+  text-align: center;
 }
 
-@media (max-width: 760px) {
-  .navbar {
-    padding: 0 20px;
+footer p {
+  margin: 5px 0;
+  color: #6e8980;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* 17. Tablet layout */
+@media (max-width: 900px) {
+  main {
+    padding-right: 22px;
+    padding-left: 22px;
   }
 
   .content-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
   }
 
   .hero {
-    padding-top: 44px;
+    padding-top: 52px;
   }
 
   .panel {
-    padding: 21px;
+    padding: 24px;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .symptom,
-  .submit-button {
-    transition: background 0.15s ease, border-color 0.15s ease;
+/* 18. Mobile layout */
+@media (max-width: 600px) {
+  .navbar {
+    min-height: 66px;
+    padding: 14px 18px;
+  }
+
+  .brand {
+    font-size: 20px;
+  }
+
+  .brand-icon {
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+  }
+
+  .privacy-note {
+    font-size: 11px;
+    text-align: right;
+  }
+
+  main {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .hero {
+    padding: 42px 0 28px;
+  }
+
+  .eyebrow {
+    font-size: 10px;
+    letter-spacing: 1.4px;
+  }
+
+  .hero h1 {
+    font-size: 34px;
+    letter-spacing: -1px;
+  }
+
+  .hero p {
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  .notice {
+    margin-bottom: 22px;
+    padding: 14px;
+    font-size: 13px;
+  }
+
+  .content-grid {
+    margin-bottom: 36px;
+  }
+
+  .panel {
+    padding: 20px 16px;
+    border-radius: 14px;
+  }
+
+  .panel h2 {
+    font-size: 20px;
+  }
+
+  .symptom-grid {
+    gap: 9px;
+  }
+
+  .symptom {
+    min-height: 48px;
+    padding: 10px 8px;
+    gap: 7px;
+    font-size: 12px;
+  }
+
+  .symptom span {
+    width: 20px;
+    height: 20px;
+    font-size: 13px;
+  }
+
+  .custom-symptom-row {
+    flex-wrap: wrap;
+  }
+
+  .custom-symptom-row input {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  .add-symptom-button {
+    width: 100%;
+  }
+
+  .empty-state {
+    min-height: 240px;
+    padding: 28px 10px;
+  }
+
+  footer {
+    padding: 22px 16px;
+  }
+}
+
+/* 19. Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import "./App.css";
 
+
 const symptomOptions = [
   "Headache",
   "Fever",
@@ -11,10 +12,18 @@ const symptomOptions = [
   "Fatigue",
   "Runny nose",
   "Body aches",
+  "Chest pain",
+  "Difficulty breathing",
+  "Severe bleeding",
+  "Loss of consciousness",
+  "Sudden confusion",
+  "Sudden weakness",
 ];
+
 
 function App() {
   const [symptoms, setSymptoms] = useState([]);
+  const [customSymptom, setCustomSymptom] = useState("");
   const [duration, setDuration] = useState("1 day");
   const [ageGroup, setAgeGroup] = useState("adult");
   const [result, setResult] = useState(null);
@@ -121,6 +130,41 @@ function App() {
                 ))}
               </div>
 
+<div className="custom-symptom">
+  <label htmlFor="customSymptom">
+    Other symptoms (optional)
+  </label>
+  <div className="custom-symptom-row">
+    <input
+      id="customSymptom"
+      type="text"
+      value={customSymptom}
+      onChange={(event) => setCustomSymptom(event.target.value)}
+      placeholder="e.g. stomach pain"
+      maxLength={100}
+    />
+    <button
+      type="button"
+      className="add-symptom-button"
+      onClick={() => {
+        const cleaned = customSymptom.trim();
+        if (cleaned && !symptoms.some(
+          (item) => item.toLowerCase() === cleaned.toLowerCase()
+        )) {
+          setSymptoms((current) => [...current, cleaned]);
+        }
+        setCustomSymptom("");
+      }}
+    >
+      Add
+    </button>
+  </div>
+  <p className="input-hint">
+    Type a symptom and select Add to include it in your assessment.
+  </p>
+</div>
+
+                
               <label htmlFor="duration">How long have you felt this way?</label>
               <select
                 id="duration"
@@ -168,22 +212,41 @@ function App() {
                 </p>
               </div>
             ) : (
-              <div className="result-content">
-                <span className="result-label">GENERAL GUIDANCE</span>
-                <p>{result.message}</p>
+             
+<div className="result-content">
+  <div
+    className={`urgency-banner ${
+      result.urgency === "urgent" ? "urgent" : "general"
+    }`}
+    role="alert"
+  >
+    <strong>
+      {result.urgency === "urgent"
+        ? "⚠️ Seek emergency medical care"
+        : "General health information"}
+    </strong>
+    <p>
+      {result.urgency === "urgent"
+        ? "Your selected symptoms may indicate an emergency. Do not delay seeking medical care."
+        : "This information is not a diagnosis. Seek care if symptoms are severe, worsening, or concerning."}
+    </p>
+  </div>
 
-                <h3>Symptoms shared</h3>
-                <p>{result.symptoms_received.join(", ")}</p>
+  <p>{result.message}</p>
 
-                <h3>Suggested next steps</h3>
-                <ul>
-                  {result.next_steps.map((step, index) => (
-                    <li key={index}>{step}</li>
-                  ))}
-                </ul>
+  <h3>Symptoms shared</h3>
+  <p>{result.symptoms_received.join(", ")}</p>
 
-                <p className="disclaimer">{result.disclaimer}</p>
-              </div>
+  <h3>Suggested next steps</h3>
+  <ul>
+    {result.next_steps.map((step, index) => (
+      <li key={index}>{step}</li>
+    ))}
+  </ul>
+
+  <p className="disclaimer">{result.disclaimer}</p>
+</div>
+
             )}
           </section>
         </div>
