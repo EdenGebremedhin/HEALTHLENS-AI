@@ -38,6 +38,18 @@ function App() {
     );
   }
 
+
+  function handleReset() {
+    setSymptoms([]);
+    setCustomSymptom("");
+    setDuration("1 day");
+    setAgeGroup("adult");
+    setResult(null);
+    setError("");
+    setLoading(false);
+  }
+
+
   async function handleSubmit(event) {
     event.preventDefault();
     setError("");
@@ -146,15 +158,31 @@ function App() {
     <button
       type="button"
       className="add-symptom-button"
-      onClick={() => {
-        const cleaned = customSymptom.trim();
-        if (cleaned && !symptoms.some(
-          (item) => item.toLowerCase() === cleaned.toLowerCase()
-        )) {
-          setSymptoms((current) => [...current, cleaned]);
-        }
-        setCustomSymptom("");
-      }}
+      
+onClick={() => {
+  const cleaned = customSymptom.trim();
+
+  if (!cleaned) {
+    setCustomSymptom("");
+    return;
+  }
+
+  const alreadyAdded = symptoms.some(
+    (item) => item.toLowerCase() === cleaned.toLowerCase()
+  );
+
+  if (alreadyAdded) {
+    setError("That symptom has already been added.");
+  } else if (symptoms.length >= 20) {
+    setError("You can add a maximum of 20 symptoms.");
+  } else {
+    setSymptoms((current) => [...current, cleaned]);
+    setError("");
+  }
+
+  setCustomSymptom("");
+}}
+
     >
       Add
     </button>
@@ -162,6 +190,47 @@ function App() {
   <p className="input-hint">
     Type a symptom and select Add to include it in your assessment.
   </p>
+
+{symptoms.some(
+  (symptom) =>
+    !symptomOptions.some(
+      (option) => option.toLowerCase() === symptom.toLowerCase()
+    )
+) && (
+  <div className="custom-symptom-tags">
+    <p className="tags-heading">Your added symptoms</p>
+
+    <div className="tags-list">
+      {symptoms
+        .filter(
+          (symptom) =>
+            !symptomOptions.some(
+              (option) =>
+                option.toLowerCase() === symptom.toLowerCase()
+            )
+        )
+        .map((symptom) => (
+          <span className="symptom-tag" key={symptom}>
+            {symptom}
+
+            <button
+              type="button"
+              className="remove-symptom"
+              aria-label={`Remove ${symptom}`}
+              onClick={() =>
+                setSymptoms((current) =>
+                  current.filter((item) => item !== symptom)
+                )
+              }
+            >
+              ×
+            </button>
+          </span>
+        ))}
+    </div>
+  </div>
+)}
+
 </div>
 
                 
@@ -192,9 +261,31 @@ function App() {
 
               {error && <p className="error" role="alert">{error}</p>}
 
-              <button className="submit-button" type="submit" disabled={loading}>
-                {loading ? "Getting information..." : "Get health information →"}
-              </button>
+              
+<div className="form-actions">
+
+<button className="submit-button" type="submit" disabled={loading}>
+  {loading ? (
+    <span className="loading-content">
+      <span className="loading-spinner" aria-hidden="true"></span>
+      Checking your symptoms...
+    </span>
+  ) : (
+    "Get health information →"
+  )}
+</button>
+
+
+  <button
+    className="clear-button"
+    type="button"
+    onClick={handleReset}
+    disabled={loading}
+  >
+    Clear form
+  </button>
+</div>
+
             </form>
           </section>
 
@@ -234,8 +325,32 @@ function App() {
 
   <p>{result.message}</p>
 
-  <h3>Symptoms shared</h3>
-  <p>{result.symptoms_received.join(", ")}</p>
+
+<h3>Symptoms shared</h3>
+
+<div className="result-symptom-tags">
+  {result.symptoms_received.map((symptom, index) => {
+    const isCustom = !symptomOptions.some(
+      (option) =>
+        option.toLowerCase() === symptom.toLowerCase()
+    );
+
+    return (
+      <span
+        className={`result-symptom-tag ${
+          isCustom ? "custom" : ""
+        }`}
+        key={`${symptom}-${index}`}
+      >
+        {symptom}
+        {isCustom && (
+          <span className="custom-label">Custom</span>
+        )}
+      </span>
+    );
+  })}
+</div>
+
 
   <h3>Suggested next steps</h3>
   <ul>
